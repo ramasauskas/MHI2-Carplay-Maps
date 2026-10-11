@@ -1,9 +1,10 @@
 # MU1367 / 791 AID 12.3
 
 - Firmware gate: `/ifs/lsd.jxe` = **55,840,541 bytes**
-- Display: **40 fps, navigation centered**
+- Display: **30 fps, navigation centered**
 - Steering controls: short press zoom; long press map switch
 - Profile core: `payload/profiles/MU1367/791/core.so`
+- Fork patch: `core.so` and `common/altscreen-most-bridge` include the [block-artifact fix](../../patches/mu1367-791-artifact-fix/)
 
 This is a standalone CarPlay Maps VC file set, not a complete toolbox. From this directory on the MMX shell, run `/bin/ksh ./run-install.sh`. The installer performs the exact firmware/profile check again and does not reboot automatically.
 

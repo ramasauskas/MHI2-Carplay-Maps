@@ -16,6 +16,11 @@
 
 </div>
 
+> [!NOTE]
+> **Fork of [omonob/MHI2-Carplay-Maps](https://github.com/omonob/MHI2-Carplay-Maps), modified 2026-10-11.** The MU1367 / 791 AID 12.3 files include diasdio's [block-artifact fix](patches/mu1367-791-artifact-fix/) for `altscreen-most-bridge` and `core.so`. Everything else is unchanged from upstream.
+>
+> **本仓库为 omonob/MHI2-Carplay-Maps 的分支，修改于 2026-10-11。** MU1367 / 791 AID 12.3 文件已包含 diasdio 提供的[花屏修复补丁](patches/mu1367-791-artifact-fix/)（`altscreen-most-bridge` 与 `core.so`），其余内容与上游一致。
+
 ---
 
 ## 中文说明

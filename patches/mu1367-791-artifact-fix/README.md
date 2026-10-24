@@ -12,16 +12,18 @@ The analysis and patches are by **[diasdio](https://github.com/diasdio)**, descr
 | `altscreen-most-bridge` | `0x4174` | `cmphi r3,#7` → `cmphi r3,#0` | Under congestion the fresh-IDR request was never made, because any MOST write over 30 ms reset the "fast writes" streak it waited for. |
 | `core.so` | `0x4370`, `0x452c` | Forced IDR every 20 → 5 frames | This matches VW's own GOP length (`nv_frames_per_gop = 5`). The MOST queue holds about one GOP. |
 | `core.so` | `0x2a70` | `maxFPS` 40 → 30 | Less data per second over MOST. |
-| `core.so` | `0x2b9c` | `safeArea` height 440 → 430 | Stops the position arrow being cut off when the cluster shows its bottom warning strip. |
+| `core.so` | `0x2b94`, `0x2b9c` | `safeArea` 160,20,480,440 → 160,50,480,400 | The top edge moves down 30 px so the turn card sits below the cluster's status row (compass, clock, temperature) instead of being clipped by it. The bottom edge moves up to y=450 so the position arrow clears the bottom warning strip. |
 
 Trade-off: the map is a little less fluid and lags slightly, similar to the factory map.
 
 | File | Stock SHA-256 | Patched SHA-256 |
 | --- | --- | --- |
 | `common/altscreen-most-bridge` | `c846e505da704f101815a4658f1b815930d0b6f779d435349b864ef96056c8f3` | `fed7dce45f923384fec47861c448b753913f0561ed7e2a279860a5d13f8a44f4` |
-| `profiles/MU1367/791/core.so` | `00b48a8fe876e6ff405124b87ed9eace1bcb079220ff7f02b866f42676477a4a` | `4e2777b2d06fec693235828ce31259230e33992a931bb6b0369545e8f9ee230f` |
+| `profiles/MU1367/791/core.so` | `00b48a8fe876e6ff405124b87ed9eace1bcb079220ff7f02b866f42676477a4a` | `2f7439b0af69aa53a6e5a3d89bc3c6fd08d6840cc1a983f57995f1235570c9d6` |
 
-The patched hashes are identical to the builds diasdio runs in their car.
+The bridge is identical to the build diasdio runs in their car. `core.so` differs from diasdio's build only in the safe-area top edge (y=50 instead of 20, height 400 instead of 430). An earlier release of this patch used diasdio's values (`4e2777b2…`); `apply.py` upgrades that build in place.
+
+Reporting a larger physical display size to make the turn card smaller does not work: at 240 × 144 mm iOS switched to a taller two-line card and moved the position arrow off centre.
 
 ## Tested on
 

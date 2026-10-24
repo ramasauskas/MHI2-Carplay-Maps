@@ -31,13 +31,21 @@ FILES = {
     },
     "profiles/MU1367/791/core.so": {
         "stock": "00b48a8fe876e6ff405124b87ed9eace1bcb079220ff7f02b866f42676477a4a",
-        "patched": "4e2777b2d06fec693235828ce31259230e33992a931bb6b0369545e8f9ee230f",
+        "patched": "2f7439b0af69aa53a6e5a3d89bc3c6fd08d6840cc1a983f57995f1235570c9d6",
         "edits": [
             (0x2A70, "2820a0e3", "1e20a0e3"),  # maxFPS 40 -> 30
-            (0x2B9C, "6e3fa0e3", "ae3100e3"),  # safeArea height: mov r3,#440 -> movw r3,#430
+            (0x2B94, "1410a0e3", "3210a0e3"),  # safeArea top: mov r1,#20 -> mov r1,#50
+            (0x2B9C, "6e3fa0e3", "903100e3"),  # safeArea height: mov r3,#440 -> movw r3,#400
             (0x4370, "1420a0e3", "0520a0e3"),  # forced IDR every 20 -> 5 frames
             (0x452C, "1420a0e3", "0520a0e3"),  # same period, logged value
         ],
+        # Earlier release of this patch (safe area 160,20,480,430): upgraded in place.
+        "previous": {
+            "4e2777b2d06fec693235828ce31259230e33992a931bb6b0369545e8f9ee230f": [
+                (0x2B94, "1410a0e3", "3210a0e3"),
+                (0x2B9C, "ae3100e3", "903100e3"),
+            ],
+        },
     },
 }
 
@@ -63,9 +71,12 @@ def main():
         if digest == spec[target]:
             print(f"already {target}: {rel}")
             continue
-        if digest != spec[source]:
+        edits = spec["edits"]
+        if not args.revert and digest in spec.get("previous", {}):
+            edits = spec["previous"][digest]
+        elif digest != spec[source]:
             sys.exit(f"unknown build, nothing changed: {rel} ({digest})")
-        for offset, stock, patched in spec["edits"]:
+        for offset, stock, patched in edits:
             old, new = bytes.fromhex(stock), bytes.fromhex(patched)
             if args.revert:
                 old, new = new, old

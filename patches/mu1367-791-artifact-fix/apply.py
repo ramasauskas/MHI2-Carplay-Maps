@@ -31,19 +31,27 @@ FILES = {
     },
     "profiles/MU1367/791/core.so": {
         "stock": "00b48a8fe876e6ff405124b87ed9eace1bcb079220ff7f02b866f42676477a4a",
-        "patched": "2f7439b0af69aa53a6e5a3d89bc3c6fd08d6840cc1a983f57995f1235570c9d6",
+        "patched": "b76c18934d8f0c0b446e461f1d6f8c24790b377aae45517b329ca19693b0b959",
         "edits": [
             (0x2A70, "2820a0e3", "1e20a0e3"),  # maxFPS 40 -> 30
             (0x2B94, "1410a0e3", "3210a0e3"),  # safeArea top: mov r1,#20 -> mov r1,#50
             (0x2B9C, "6e3fa0e3", "903100e3"),  # safeArea height: mov r3,#440 -> movw r3,#400
             (0x4370, "1420a0e3", "0520a0e3"),  # forced IDR every 20 -> 5 frames
             (0x452C, "1420a0e3", "0520a0e3"),  # same period, logged value
+            # Cluster URL without "/map", so iOS draws the turn card (finding by mathsls).
+            (0x8130, "6d6170733a2f6361722f696e737472756d656e74636c75737465722f6d617000", "6d6170733a2f6361722f696e737472756d656e74636c75737465720000000000"),
         ],
-        # Earlier release of this patch (safe area 160,20,480,430): upgraded in place.
+        # Earlier releases of this patch: upgraded in place.
         "previous": {
+            # safe area 160,20,480,430, map-only cluster URL
             "4e2777b2d06fec693235828ce31259230e33992a931bb6b0369545e8f9ee230f": [
                 (0x2B94, "1410a0e3", "3210a0e3"),
                 (0x2B9C, "ae3100e3", "903100e3"),
+                (0x8130, "6d6170733a2f6361722f696e737472756d656e74636c75737465722f6d617000", "6d6170733a2f6361722f696e737472756d656e74636c75737465720000000000"),
+            ],
+            # safe area 160,50,480,400, map-only cluster URL
+            "2f7439b0af69aa53a6e5a3d89bc3c6fd08d6840cc1a983f57995f1235570c9d6": [
+                (0x8130, "6d6170733a2f6361722f696e737472756d656e74636c75737465722f6d617000", "6d6170733a2f6361722f696e737472756d656e74636c75737465720000000000"),
             ],
         },
     },

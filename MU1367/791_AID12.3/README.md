@@ -4,7 +4,7 @@
 - Display: **30 fps, navigation centered**
 - Steering controls: short press zoom; long press map switch
 - Profile core: `payload/profiles/MU1367/791/core.so`
-- Fork patch: `core.so` and `common/altscreen-most-bridge` include the [block-artifact fix](../../patches/mu1367-791-artifact-fix/) a turn card on the cluster over the cable, and a safe area that keeps it below the status row
+- Fork patch: `core.so`, `common/altscreen-most-bridge`, `common/carplay-cluster-supervisor` and `common/dio_manager.wrapper.sh` include the [block-artifact fix](../../patches/mu1367-791-artifact-fix/) a turn card on the cluster over the cable, a safe area that keeps it below the status row, and no diagnostic logs on the RAM disk (stops the cluster freezing after about 20 minutes)
 
 This is a standalone CarPlay Maps VC file set, not a complete toolbox. From this directory on the MMX shell, run `/bin/ksh ./run-install.sh`. The installer performs the exact firmware/profile check again and does not reboot automatically.
 

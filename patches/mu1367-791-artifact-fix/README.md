@@ -14,6 +14,8 @@ The analysis and patches are by **[diasdio](https://github.com/diasdio)**, descr
 | `core.so` | `0x2a70` | `maxFPS` 40 → 30 | Less data per second over MOST. |
 | `core.so` | `0x2b94`, `0x2b9c` | `safeArea` 160,20,480,440 → 160,50,480,400 | The top edge moves down 30 px so the turn card sits below the cluster's status row (compass, clock, temperature) instead of being clipped by it. The bottom edge moves up to y=450 so the position arrow clears the bottom warning strip. |
 | `core.so` | `0x8130` | Cluster URL `maps:/car/instrumentcluster/map` → `maps:/car/instrumentcluster` | With `/map` iOS draws only the map. The root URL makes Google Maps, Apple Maps and Waze draw their turn card in the cluster video over the cable. Found by [mathsls](https://github.com/mathsls/MHI2-Carplay-Maps/tree/main/src/fork). Steering-wheel zoom keeps working. |
+| `carplay-cluster-supervisor` | `0x47c0` | Bridge log `/ramdisk/altscreen-most-bridge.log` → `/dev/null` | `/ramdisk` is a 20 MB RAM disk that also holds the 16 MB video ring. With a keyframe every 5 frames the logs fill it in about 20 minutes and the cluster stream freezes until a reboot ([#48](https://github.com/omonob/MHI2-Carplay-Maps/issues/48), fix by [mathsls](https://github.com/mathsls)). |
+| `dio_manager.wrapper.sh` | `CARPLAY_ALTSCREEN_LOG`, `CARPLAY_SECURITY_BRIDGE_LOG` | `/ramdisk/…` → `/dev/null` | Same RAM disk fix for the `core.so` video log and the session log. The lines are padded with spaces so the file keeps its size. |
 
 Trade-off: the map is a little less fluid and lags slightly, similar to the factory map.
 
@@ -21,8 +23,10 @@ Trade-off: the map is a little less fluid and lags slightly, similar to the fact
 | --- | --- | --- |
 | `common/altscreen-most-bridge` | `c846e505da704f101815a4658f1b815930d0b6f779d435349b864ef96056c8f3` | `fed7dce45f923384fec47861c448b753913f0561ed7e2a279860a5d13f8a44f4` |
 | `profiles/MU1367/791/core.so` | `00b48a8fe876e6ff405124b87ed9eace1bcb079220ff7f02b866f42676477a4a` | `b76c18934d8f0c0b446e461f1d6f8c24790b377aae45517b329ca19693b0b959` |
+| `common/carplay-cluster-supervisor` | `cdc2f9c64eae15ecfc57eafcd497a9a19582d04c7068b0a48e0b84c5d6546b24` | `8e6ac3a85f04c3faca4850c9f09021bdd628fa1653d718f9c3db3be9d8057569` |
+| `common/dio_manager.wrapper.sh` | `c7889641338663fc9575834307f6d170a363644a85e5e66bb5b59fa1cfd358fc` | `4ab7c1f88f37c0aef20735d079225767c52029be28adc989238548bd3b3442cb` |
 
-The bridge is identical to the build diasdio runs in their car. `core.so` differs from diasdio's build in the safe-area top edge (y=50 instead of 20, height 400 instead of 430) and the cluster URL. `apply.py` upgrades the earlier releases of this patch (`4e2777b2…`, `2f7439b0…`) in place.
+The bridge is identical to the build diasdio runs in their car, and the supervisor to the one in mathsls's fork. `core.so` differs from diasdio's build in the safe-area top edge (y=50 instead of 20, height 400 instead of 430) and the cluster URL. `apply.py` upgrades the earlier releases of this patch (`4e2777b2…`, `2f7439b0…`) in place.
 
 Reporting a larger physical display size to make the turn card smaller does not work: at 240 × 144 mm iOS switched to a taller two-line card and moved the position arrow off centre.
 
@@ -47,6 +51,10 @@ python3 patches/mu1367-791-artifact-fix/apply.py "/Volumes/<SD>/CarPlayMapsVC/pa
 The script refuses any file that is not the exact stock or patched build, and in that case writes nothing. On an MQB card the bridge is shared by every MU profile, so use a patched card only for MU1367 with a 791 cluster.
 
 Then, with the card in SD1, run **Customization → CarPlay Maps VC → Install 791 AID 12.3 (AUTO MU)**. Wait for `CPMAP_INSTALL_OK` and do a full reboot. Running the installer again keeps the factory backups from the first install.
+
+## Logs
+
+The CarPlay Maps logs are no longer kept. To debug, revert this patch with `apply.py --revert` and reinstall; `carplaymaps-launcher.log` (a few lines per boot) is still written.
 
 ## Revert
 

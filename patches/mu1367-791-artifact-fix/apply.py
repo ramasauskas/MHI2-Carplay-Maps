@@ -55,6 +55,26 @@ FILES = {
             ],
         },
     },
+    # Stop the diagnostic logs filling the 20 MB /ramdisk, which froze the cluster
+    # stream after about 20 minutes (omonob/MHI2-Carplay-Maps#48, fix by mathsls).
+    "common/carplay-cluster-supervisor": {
+        "stock": "cdc2f9c64eae15ecfc57eafcd497a9a19582d04c7068b0a48e0b84c5d6546b24",
+        "patched": "8e6ac3a85f04c3faca4850c9f09021bdd628fa1653d718f9c3db3be9d8057569",
+        "edits": [
+            (0x47C0, "2f72616d6469736b2f616c7473637265656e2d6d6f73742d6272696467652e6c6f6700",
+             "2f6465762f6e756c6c0000000000000000000000000000000000000000000000000000"),  # bridge log path -> /dev/null
+        ],
+    },
+    "common/dio_manager.wrapper.sh": {
+        "stock": "c7889641338663fc9575834307f6d170a363644a85e5e66bb5b59fa1cfd358fc",
+        "patched": "4ab7c1f88f37c0aef20735d079225767c52029be28adc989238548bd3b3442cb",
+        "edits": [
+            (0x03D4, "434152504c41595f414c5453435245454e5f4c4f473d2f72616d6469736b2f636172706c61796d6170732d766964656f2e6c6f67",
+             "434152504c41595f414c5453435245454e5f4c4f473d2f6465762f6e756c6c202020202020202020202020202020202020202020"),  # video log -> /dev/null (space padded)
+            (0x05A1, "434152504c41595f53454355524954595f4252494447455f4c4f473d2f72616d6469736b2f636172706c61792d6d6170732d73657373696f6e2e6c6f67",
+             "434152504c41595f53454355524954595f4252494447455f4c4f473d2f6465762f6e756c6c202020202020202020202020202020202020202020202020"),  # session log -> /dev/null (space padded)
+        ],
+    },
 }
 
 

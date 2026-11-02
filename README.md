@@ -17,9 +17,9 @@
 </div>
 
 > [!NOTE]
-> **Fork of [omonob/MHI2-Carplay-Maps](https://github.com/omonob/MHI2-Carplay-Maps), last modified 2026-10-24.** The MU1367 / 791 AID 12.3 files include [these patches](patches/mu1367-791-artifact-fix/): diasdio's block-artifact fix, the CarPlay turn card on the cluster over the cable, a safe area that keeps the card below the status row, and mathsls's fix for the cluster freezing after about 20 minutes. Everything else is unchanged from upstream.
+> **Fork of [omonob/MHI2-Carplay-Maps](https://github.com/omonob/MHI2-Carplay-Maps), last modified 2026-11-02.** The MU1367 / 791 AID 12.3 files include [these patches](patches/mu1367-791-artifact-fix/): diasdio's block-artifact fix, the CarPlay turn card and ETA bar on the cluster over the cable, a safe area that keeps both clear of the status row and the warning strip, and mathsls's fix for the cluster freezing after about 20 minutes. Everything else is unchanged from upstream.
 >
-> **本仓库为 omonob/MHI2-Carplay-Maps 的分支，最后修改于 2026-10-24。** MU1367 / 791 AID 12.3 文件已包含[以下补丁](patches/mu1367-791-artifact-fix/)：diasdio 的花屏修复、有线连接时仪表显示 CarPlay 转向卡片、使卡片位于状态栏下方的安全区域，以及 mathsls 对约 20 分钟后仪表画面卡住问题的修复。其余内容与上游一致。
+> **本仓库为 omonob/MHI2-Carplay-Maps 的分支，最后修改于 2026-11-02。** MU1367 / 791 AID 12.3 文件已包含[以下补丁](patches/mu1367-791-artifact-fix/)：diasdio 的花屏修复、有线连接时仪表显示 CarPlay 转向卡片和预计到达时间栏、使两者避开状态栏和底部警告栏的安全区域，以及 mathsls 对约 20 分钟后仪表画面卡住问题的修复。其余内容与上游一致。
 
 ---
 
